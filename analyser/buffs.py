@@ -69,7 +69,7 @@ BUFF_TYPES = [
     
         # Conditions
         BuffType('Weakness','weakness',[742],StackType.DURATION, 5),
-        BuffType('Vulnerability','vulnerability', StackType.INTENSITY, 25)
+        BuffType('Vulnerability','vuln',[738], StackType.INTENSITY, 25)
     #Future boon ids
     #Aegis - 743
     ]
@@ -132,7 +132,7 @@ BUFF_TABS = [
     {
         'name': 'Conditions',
         'order': [
-            'vulnerability',
+            'vuln',
             'weakness',
         ],
     },
