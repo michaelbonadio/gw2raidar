@@ -65,8 +65,11 @@ BUFF_TYPES = [
         BuffType('Lead Attacks', 'lead_attacks', [34659], StackType.INTENSITY, 15),
     
         # Guardian
-        BuffType('Strength in Numbers','strength_in_numbers',[13796],StackType.DURATION, 1, 1, 1)
+        BuffType('Strength in Numbers','strength_in_numbers',[13796],StackType.DURATION, 1, 1, 1),
     
+        # Conditions
+        BuffType('Weakness','weakness',[742],StackType.DURATION, 5),
+        BuffType('Vulnerability','vulnerability', StackType.INTENSITY, 25)
     #Future boon ids
     #Aegis - 743
     ]
@@ -124,6 +127,13 @@ BUFF_TABS = [
             'soothing_mist',
             'vampiric_presence',
             'strength_in_numbers',
+        ],
+    },
+    {
+        'name': 'Conditions',
+        'order': [
+            'vulnerability',
+            'weakness',
         ],
     },
     {
