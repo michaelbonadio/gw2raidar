@@ -1,0 +1,86 @@
+{% load staticfiles %}
+<div class="table-container">
+  {% include 'raidar/encounter_row_header.html' %}
+
+  <div class="uk-overflow-auto">
+    <table class="uk-table stats">
+      <tbody>
+        <tr>
+          <th>Totals</th>
+          <th width="100"><img src="{% static 'raidar/img/buff/Weakness.png' %}" uk-tooltip title="Weakness" alt="Weakness"/></th>
+          <th width="100"><img src="{% static 'raidar/img/buff/Vulnerability.png' %}" uk-tooltip title="Vulnerability" alt="Vulnerability"/></th>
+        </tr>
+        <tr>
+          <td>Squad</td>
+          [[#each data.boons]]
+            [[#if encounter.phases[page.phase]]]
+              <td style="[[#if encounter.phases[page.phase].group]][[bar(encounter.phases[page.phase].buffs_out[boon], encounter.phases[page.phase].group.buffs_out['avg_' + boon], encounter.phases[page.phase].group.buffs_out['min_' + boon], encounter.phases[page.phase].group.buffs_out['max_' + boon], stacks || 100)]][[else]][[bar1(encounter.phases[page.phase].buffs_out[boon], stacks || 100)]][[/if]]">
+                [[#with { format: stacks ? num : perc } ]]
+                  <span>[[format(encounter.phases[page.phase].buffs_out[boon], 2)]]</span>
+                  [[#if encounter.phases[page.phase].group]]
+                    <span class="expected">[[format(encounter.phases[page.phase].group.buffs_out['avg_' + boon], 2)]]</span>
+                  [[/if]]
+                [[/with]]
+              </td>
+            [[else]]
+              <td></td>
+            [[/if]]
+          [[/each]]
+        </tr>
+        [[#each encounter.parties:partyNo]]
+          <tr>
+            <td>Party [[partyNo]] ([[members.length]] member[[members.length > 1 && 's' || '']])</td>
+            [[#each data.boons]]
+              [[#if phases[page.phase]]]
+                <td style="[[bar1(phases[page.phase].buffs_out[boon], stacks || 100)]]">
+                  [[#with { format: stacks ? num : perc } ]]
+                    <span>[[format(phases[page.phase].buffs_out[boon], 2)]]</span>
+                  [[/with]]
+                </td>
+              [[else]]
+                <td></td>
+              [[/if]]
+            [[/each]]
+          </tr>
+        [[/each]]
+      </tbody>
+
+      [[#each encounter.parties:partyNo]]
+        <tbody>
+          <tr>
+            <th>Party [[partyNo]]</th>
+            <th width="100"><img src="{% static 'raidar/img/buff/Weakness.png' %}" uk-tooltip title="Weakness" alt="Weakness"/></th>
+            <th width="100"><img src="{% static 'raidar/img/buff/Vulnerability.png' %}" uk-tooltip title="Vulnerability" alt="Vulnerability"/></th>
+          </tr>
+          [[#each members]]
+            <tr>
+              <td class="[[self && 'uk-text-primary']]">
+                <img alt="[[data.archetypes[archetype]]]" src="{% static 'raidar/img/arch/' %}/[[data.archetypes[archetype]]].png"/>
+                <img alt="[[data.specialisations[profession][elite]]]" src="{% static 'raidar/img/20px/' %}/[[data.specialisations[profession][elite]]]_tango_icon_20px.png"/>
+                [[#if name]]
+                  [[name]]
+                [[else]]
+                  <span class="private">PRIVATE</span>
+                [[/if]]
+              </td>
+              [[#each data.boons]]
+                [[#if phases[page.phase]]]
+                  <td style="[[#if phases[page.phase].archetype.buffs_out['avg_' + boon]]][[bar(phases[page.phase].buffs_out[boon], phases[page.phase].archetype.buffs_out['avg_' + boon], phases[page.phase].archetype.buffs_out['min_' + boon], phases[page.phase].archetype.buffs_out['max_' + boon], stacks || 100)]][[else]][[bar1(phases[page.phase].buffs_out[boon], stacks || 100)]][[/if]]">
+                    [[#with { format: stacks ? num : perc } ]]
+                      <span>[[format(phases[page.phase].buffs_out[boon], 2)]]</span>
+                      [[#if phases[page.phase].archetype.buffs_out['avg_' + boon]]]
+                        <span class="expected">[[format(phases[page.phase].archetype.buffs_out['avg_' + boon], 2)]]</span>
+                      [[/if]]
+                    [[/with]]
+                  </td>
+                [[else]]
+                  <td></td>
+                [[/if]]
+              [[/each]]
+            </tr>
+          [[/each]]
+        </tbody>
+      [[/each]]
+    </table>
+  </div>
+</div>
